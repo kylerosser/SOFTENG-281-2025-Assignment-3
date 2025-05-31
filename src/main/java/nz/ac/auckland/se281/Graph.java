@@ -14,6 +14,7 @@ public class Graph<T> {
   }
 
   public void addEdge(T node1, T node2) {
+    if (node1.equals(node2)) return;
     addNode(node1);
     addNode(node2);
     adjNodes.get(node1).add(node2);
