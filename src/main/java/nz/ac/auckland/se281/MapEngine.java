@@ -112,6 +112,7 @@ public class MapEngine {
 
   /** this method is invoked when the user run the command route. */
   public void showRoute() {
+    // Prompt for the starting country name
     MessageCli.INSERT_SOURCE.printMessage();
     String startingCountryName;
     while (true) {
@@ -125,6 +126,7 @@ public class MapEngine {
       break;
     }
 
+    // Prompt for the destination country name
     MessageCli.INSERT_DESTINATION.printMessage();
     String endingCountryName;
     while (true) {
