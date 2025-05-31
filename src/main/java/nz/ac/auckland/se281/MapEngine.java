@@ -12,7 +12,6 @@ public class MapEngine {
 
   /** invoked one time only when constracting the MapEngine class. */
   private void loadMap() {
-
     List<String> countries = Utils.readCountries();
     List<String> adjacencies = Utils.readAdjacencies();
   }
