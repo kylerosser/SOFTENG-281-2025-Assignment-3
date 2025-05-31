@@ -119,11 +119,11 @@ public class MapEngine {
         startingCountryName = getInputCountryName();
       } catch (InvalidCountryException e) {
         System.out.println(e.getMessage());
-        MessageCli.INSERT_COUNTRY.printMessage();
         continue;
       }
       break;
     }
+    Country startingCountry = this.countryNameMap.get(startingCountryName);
 
     // Prompt for the destination country name
     MessageCli.INSERT_DESTINATION.printMessage();
@@ -133,15 +133,31 @@ public class MapEngine {
         endingCountryName = getInputCountryName();
       } catch (InvalidCountryException e) {
         System.out.println(e.getMessage());
-        MessageCli.INSERT_COUNTRY.printMessage();
         continue;
       }
       break;
     }
+    Country endingCountry = this.countryNameMap.get(endingCountryName);
 
     if (startingCountryName.equals(endingCountryName)) {
       MessageCli.NO_CROSSBORDER_TRAVEL.printMessage();
       return;
     }
+
+    List<Country> path = this.graph.bfsShortestPath(startingCountry, endingCountry);
+
+    String pathString = "[";
+    Boolean firstNodeInPath = true;
+    for (int i = 0; i < path.size(); i++) {
+      if (!firstNodeInPath) {
+        pathString += ", ";
+      } else {
+        firstNodeInPath = false;
+      }
+      pathString += path.get(i).getName();
+    }
+    pathString += "]";
+
+    MessageCli.ROUTE_INFO.printMessage(pathString);
   }
 }

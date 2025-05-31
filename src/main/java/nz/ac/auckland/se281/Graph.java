@@ -2,8 +2,10 @@ package nz.ac.auckland.se281;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 
 public class Graph<T> {
 
@@ -35,5 +37,33 @@ public class Graph<T> {
 
   public List<T> getAdjacentNodes(T node) {
     return adjNodes.get(node);
+  }
+
+  public List<T> bfsShortestPath(T root, T destination) {
+    List<T> visited = new ArrayList<>();
+    Queue<List<T>> queue = new LinkedList<>();
+    List<T> rootPathList = new ArrayList<>();
+    rootPathList.add(root);
+    queue.add(rootPathList);
+    visited.add(root);
+
+    while (!queue.isEmpty()) {
+      List<T> path = queue.poll();
+      T node = path.getLast();
+
+      if (node.equals(destination)) {
+        return path;
+      }
+
+      for (T n : adjNodes.get(node)) {
+        if (!visited.contains(n)) {
+          visited.add(n);
+          List<T> newPath = new ArrayList<>(path);
+          newPath.add(n);
+          queue.add(newPath);
+        }
+      }
+    }
+    return null;
   }
 }
