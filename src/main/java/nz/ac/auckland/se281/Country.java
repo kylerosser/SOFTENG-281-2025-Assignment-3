@@ -2,10 +2,12 @@ package nz.ac.auckland.se281;
 
 public class Country {
   private String name;
+  private String continent;
   private Integer fuelCost;
 
-  public Country(String name, Integer fuelCost) {
+  public Country(String name, String continent, Integer fuelCost) {
     this.name = name;
+    this.continent = continent;
     this.fuelCost = fuelCost;
   }
 
