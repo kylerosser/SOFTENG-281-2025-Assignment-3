@@ -26,4 +26,12 @@ public class Country {
   public void setFuelCost(Integer fuelCost) {
     this.fuelCost = fuelCost;
   }
+
+  public String getContinent() {
+    return continent;
+  }
+
+  public void setContinent(String continent) {
+    this.continent = continent;
+  }
 }
