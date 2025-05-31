@@ -4,11 +4,13 @@ public class Country {
   private String name;
   private String continent;
   private Integer fuelCost;
+  private String adjacencyString;
 
   public Country(String name, String continent, Integer fuelCost) {
     this.name = name;
     this.continent = continent;
     this.fuelCost = fuelCost;
+    this.adjacencyString = "";
   }
 
   public String getName() {
@@ -33,5 +35,13 @@ public class Country {
 
   public void setContinent(String continent) {
     this.continent = continent;
+  }
+
+  public String getAdjacencyString() {
+    return adjacencyString;
+  }
+
+  public void setAdjacencyString(String adjacencyString) {
+    this.adjacencyString = adjacencyString;
   }
 }

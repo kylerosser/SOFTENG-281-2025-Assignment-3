@@ -34,11 +34,27 @@ public class MapEngine {
       this.countryNameMap.put(countryName, newCountry);
       this.graph.addNode(newCountry);
 
-      for (String adjacentCountryName : countryAdjacencies) {
+      // Start generating correct-order adjacency string for printing later
+      String adjacentCountriesString = "[";
+      boolean firstCountryInString = true;
+
+      for (int j = 1; j < countryAdjacencies.length; j++) {
+        String adjacentCountryName = countryAdjacencies[j];
+        // Add the name to the adjacency string
+        if (!firstCountryInString) {
+          adjacentCountriesString += ", ";
+        } else {
+          firstCountryInString = false;
+        }
+        adjacentCountriesString += adjacentCountryName;
+
+        // Create an edge in the graph
         if (createdCountryNames.contains(adjacentCountryName)) {
           this.graph.addEdge(newCountry, this.countryNameMap.get(adjacentCountryName));
         }
       }
+      adjacentCountriesString += "]";
+      newCountry.setAdjacencyString(adjacentCountriesString);
     }
   }
 
@@ -49,23 +65,11 @@ public class MapEngine {
 
     Country thisCountry = this.countryNameMap.get(inputCountryName);
 
-    String adjacentCountriesString = "[";
-    boolean firstCountryInString = true;
-    for (Country adjacentCountry : this.graph.getAdjacentNodes(thisCountry)) {
-      if (!firstCountryInString) {
-        adjacentCountriesString += ", ";
-      } else {
-        firstCountryInString = false;
-      }
-      adjacentCountriesString += adjacentCountry.getName();
-    }
-    adjacentCountriesString += "]";
-
     MessageCli.COUNTRY_INFO.printMessage(
         thisCountry.getName(),
         thisCountry.getContinent(),
         Integer.toString(thisCountry.getFuelCost()),
-        adjacentCountriesString);
+        thisCountry.getAdjacencyString());
   }
 
   /** this method is invoked when the user run the command route. */
