@@ -111,5 +111,36 @@ public class MapEngine {
   }
 
   /** this method is invoked when the user run the command route. */
-  public void showRoute() {}
+  public void showRoute() {
+    MessageCli.INSERT_SOURCE.printMessage();
+    String startingCountryName;
+    while (true) {
+      try {
+        startingCountryName = getInputCountryName();
+      } catch (InvalidCountryException e) {
+        System.out.println(e.getMessage());
+        MessageCli.INSERT_COUNTRY.printMessage();
+        continue;
+      }
+      break;
+    }
+
+    MessageCli.INSERT_DESTINATION.printMessage();
+    String endingCountryName;
+    while (true) {
+      try {
+        endingCountryName = getInputCountryName();
+      } catch (InvalidCountryException e) {
+        System.out.println(e.getMessage());
+        MessageCli.INSERT_COUNTRY.printMessage();
+        continue;
+      }
+      break;
+    }
+
+    if (startingCountryName.equals(endingCountryName)) {
+      MessageCli.NO_CROSSBORDER_TRAVEL.printMessage();
+      return;
+    }
+  }
 }
