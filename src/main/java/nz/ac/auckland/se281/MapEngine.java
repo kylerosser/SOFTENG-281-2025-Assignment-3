@@ -58,10 +58,47 @@ public class MapEngine {
     }
   }
 
+  private String getInputCountryName() throws InvalidCountryException {
+    String inputCountryName = Utils.scanner.nextLine();
+
+    // Correct lowercase first letter of each word to be uppercase
+    boolean newWord = true;
+    for (int i = 0; i < inputCountryName.length(); i++) {
+      char thisChar = inputCountryName.charAt(i);
+      if (newWord && Character.isLowerCase(thisChar)) {
+        // Make the letter uppercase
+        char[] charArray = inputCountryName.toCharArray();
+        charArray[i] = Character.toUpperCase(thisChar);
+        inputCountryName = String.valueOf(charArray);
+      }
+
+      // If the current char is a space then flag the next
+      // iteration to be the start of a new word
+      newWord = (thisChar == ' ');
+    }
+
+    if (this.countryNameMap.get(inputCountryName) == null) {
+      throw new InvalidCountryException(inputCountryName);
+    }
+
+    return inputCountryName;
+  }
+
   /** this method is invoked when the user run the command info-country. */
   public void showInfoCountry() {
     MessageCli.INSERT_COUNTRY.printMessage();
-    String inputCountryName = Utils.scanner.nextLine();
+
+    String inputCountryName;
+
+    while (true) {
+      try {
+        inputCountryName = getInputCountryName();
+      } catch (InvalidCountryException e) {
+        System.out.println(e.getMessage());
+        continue;
+      }
+      break;
+    }
 
     Country thisCountry = this.countryNameMap.get(inputCountryName);
 
