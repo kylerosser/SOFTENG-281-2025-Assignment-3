@@ -94,6 +94,7 @@ public class MapEngine {
       try {
         inputCountryName = getInputCountryName();
       } catch (InvalidCountryException e) {
+        MessageCli.INSERT_COUNTRY.printMessage();
         System.out.println(e.getMessage());
         continue;
       }
