@@ -6,10 +6,12 @@ import java.util.List;
 
 /** This class is the main entry point. */
 public class MapEngine {
+  private Graph<Country> graph;
   private HashMap<String, Country> countryNameMap;
 
   public MapEngine() {
     this.countryNameMap = new HashMap<>();
+    this.graph = new Graph<>();
     loadMap();
   }
 
@@ -30,6 +32,13 @@ public class MapEngine {
       Country newCountry = new Country(countryName, countryContinent, countryFuelCost);
       createdCountryNames.add(countryName);
       countryNameMap.put(countryName, newCountry);
+      this.graph.addNode(newCountry);
+
+      for (String adjacentCountryName : countryAdjacencies) {
+        if (createdCountryNames.contains(adjacentCountryName)) {
+          this.graph.addEdge(newCountry, newCountry);
+        }
+      }
     }
   }
 
