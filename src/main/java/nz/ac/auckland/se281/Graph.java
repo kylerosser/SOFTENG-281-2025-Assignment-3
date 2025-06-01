@@ -2,10 +2,12 @@ package nz.ac.auckland.se281;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Set;
 
 public class Graph<T> {
 
@@ -19,8 +21,10 @@ public class Graph<T> {
     if (node1.equals(node2)) return;
     addNode(node1);
     addNode(node2);
+    if (adjNodes.get(node1).contains(node2)) {
+      return;
+    }
     adjNodes.get(node1).add(node2);
-    adjNodes.get(node2).add(node1);
   }
 
   public void removeNode(T node) {
@@ -40,7 +44,13 @@ public class Graph<T> {
   }
 
   public List<T> bfsShortestPath(T root, T destination) {
-    List<T> visited = new ArrayList<>();
+    if (root.equals(destination)) {
+      List<T> path = new ArrayList<>();
+      path.add(root);
+      return path;
+    }
+
+    Set<T> visited = new HashSet<>();
     Queue<List<T>> queue = new LinkedList<>();
     List<T> rootPathList = new ArrayList<>();
     rootPathList.add(root);
@@ -50,6 +60,7 @@ public class Graph<T> {
     while (!queue.isEmpty()) {
       List<T> path = queue.poll();
       T node = path.getLast();
+      System.out.println();
 
       if (node.equals(destination)) {
         return path;

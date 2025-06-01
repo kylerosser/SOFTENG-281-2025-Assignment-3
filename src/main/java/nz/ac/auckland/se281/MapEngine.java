@@ -19,7 +19,7 @@ public class MapEngine {
     List<String> countries = Utils.readCountries();
     List<String> adjacencies = Utils.readAdjacencies();
 
-    for (int i = 0; i < countries.size() - 1; i++) {
+    for (int i = 0; i < countries.size(); i++) {
       String[] countryInfo = countries.get(i).split(",");
       String countryName = countryInfo[0];
       String countryContinent = countryInfo[1];
@@ -30,7 +30,7 @@ public class MapEngine {
       this.graph.addNode(newCountry);
     }
 
-    for (int i = 0; i < countries.size() - 1; i++) {
+    for (int i = 1; i < countries.size(); i++) {
       String[] countryInfo = countries.get(i).split(",");
       String countryName = countryInfo[0];
       Country thisCountry = this.countryNameMap.get(countryName);
@@ -54,6 +54,10 @@ public class MapEngine {
       }
       adjacentCountriesString += "]";
       thisCountry.setAdjacencyString(adjacentCountriesString);
+    }
+    List<Country> siamList = this.graph.getAdjacentNodes(this.countryNameMap.get("Siam"));
+    for (Country c : siamList) {
+      System.out.println(c.getName());
     }
   }
 
