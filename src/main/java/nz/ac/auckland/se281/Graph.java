@@ -18,11 +18,14 @@ public class Graph<T> {
   }
 
   public void addEdge(T node1, T node2) {
+    // Handle the case of node1==node2 (we dont want loops)
     if (node1.equals(node2)) {
       return;
     }
+    // add the nodes if absent just in case
     addNode(node1);
     addNode(node2);
+    // dont add edge if already added
     if (adjNodes.get(node1).contains(node2)) {
       return;
     }
