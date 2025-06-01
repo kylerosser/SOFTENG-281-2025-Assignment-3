@@ -1,5 +1,6 @@
 package nz.ac.auckland.se281;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -150,6 +151,7 @@ public class MapEngine {
 
     List<Country> path = this.graph.bfsShortestPath(startingCountry, endingCountry);
 
+    // Create string of fastest route from source to destination from path list
     String pathString = "[";
     Boolean firstNodeInPath = true;
     for (int i = 0; i < path.size(); i++) {
@@ -161,7 +163,39 @@ public class MapEngine {
       pathString += path.get(i).getName();
     }
     pathString += "]";
-
     MessageCli.ROUTE_INFO.printMessage(pathString);
+
+    // Print the continents passed through and their fuel cost
+    List<String> continents = new ArrayList<>();
+    List<Integer> continentFuel = new ArrayList<>();
+    for (int i = 0; i < path.size(); i++) {
+      Country thisCountry = path.get(i);
+      String continent = thisCountry.getContinent();
+      if (continents.contains(continent)) {
+        int index = continents.indexOf(continent);
+        if (i != 0 && i != path.size() - 1) {
+          continentFuel.set(index, continentFuel.get(index) + thisCountry.getFuelCost());
+        }
+      } else {
+        continents.add(continent);
+        if (i != 0 && i != path.size() - 1) {
+          continentFuel.add(thisCountry.getFuelCost());
+        } else {
+          continentFuel.add(0);
+        }
+      }
+    }
+    String continentString = "[";
+    for (int i = 0; i < continents.size(); i++) {
+      continentString += continents.get(i);
+      continentString += " (";
+      continentString += Integer.toString(continentFuel.get(i));
+      continentString += ")";
+      if (i != continents.size() - 1) {
+        continentString += ", ";
+      }
+    }
+    continentString += "]";
+    MessageCli.CONTINENT_INFO.printMessage(continentString);
   }
 }
