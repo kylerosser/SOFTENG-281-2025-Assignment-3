@@ -86,10 +86,11 @@ public class MapEngine {
 
   /** this method is invoked when the user run the command info-country. */
   public void showInfoCountry() {
+    // Display a message prompting for input
     MessageCli.INSERT_COUNTRY.printMessage();
 
+    // Reprompt entry of country name until valid
     String inputCountryName;
-
     while (true) {
       try {
         inputCountryName = getInputCountryName();
@@ -101,8 +102,8 @@ public class MapEngine {
       break;
     }
 
+    // Print country info using data from the class associated with that name
     Country thisCountry = this.countryNameMap.get(inputCountryName);
-
     MessageCli.COUNTRY_INFO.printMessage(
         thisCountry.getName(),
         thisCountry.getContinent(),
@@ -183,10 +184,7 @@ public class MapEngine {
     }
     String continentString = "[";
     for (int i = 0; i < continents.size(); i++) {
-      continentString += continents.get(i);
-      continentString += " (";
-      continentString += Integer.toString(continentFuel.get(i));
-      continentString += ")";
+      continentString += continents.get(i) + " (" + Integer.toString(continentFuel.get(i)) + ")";
       if (i != continents.size() - 1) {
         continentString += ", ";
       }

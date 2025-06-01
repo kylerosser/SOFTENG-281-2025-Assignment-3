@@ -18,7 +18,9 @@ public class Graph<T> {
   }
 
   public void addEdge(T node1, T node2) {
-    if (node1.equals(node2)) return;
+    if (node1.equals(node2)) {
+      return;
+    }
     addNode(node1);
     addNode(node2);
     if (adjNodes.get(node1).contains(node2)) {
@@ -44,17 +46,26 @@ public class Graph<T> {
   }
 
   public List<T> bfsShortestPath(T root, T destination) {
+    // Handle the case of the root equalling the destination
     if (root.equals(destination)) {
       List<T> path = new ArrayList<>();
       path.add(root);
       return path;
     }
 
+    // Track visited nodes
     Set<T> visited = new HashSet<>();
+
+    // A queue of nodes to visit + the path leading up to that node
+    // (we visit nodes in the order we encounter them/breadth first.)
     Queue<List<T>> queue = new LinkedList<>();
+
+    // Assign the first path to the queue (only contains root node)
     List<T> rootPathList = new ArrayList<>();
     rootPathList.add(root);
     queue.add(rootPathList);
+
+    // Mark the root node as visited
     visited.add(root);
 
     while (!queue.isEmpty()) {
@@ -62,6 +73,7 @@ public class Graph<T> {
       T node = path.getLast();
       System.out.println();
 
+      // We have found the destination, return the shortest path
       if (node.equals(destination)) {
         return path;
       }
@@ -69,6 +81,7 @@ public class Graph<T> {
       for (T n : adjNodes.get(node)) {
         if (!visited.contains(n)) {
           visited.add(n);
+          // Add a new path to the queue with this adjacent node included
           List<T> newPath = new ArrayList<>(path);
           newPath.add(n);
           queue.add(newPath);
