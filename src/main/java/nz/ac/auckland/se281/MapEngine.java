@@ -38,23 +38,23 @@ public class MapEngine {
       String[] countryAdjacencies = adjacencies.get(i).split(",");
 
       // Start generating correct-order adjacency string for printing later
-      String adjacentCountriesString = "[";
+      StringBuilder adjacentCountriesBuilder = new StringBuilder("[");
       boolean firstCountryInString = true;
 
       for (int j = 1; j < countryAdjacencies.length; j++) {
         String adjacentCountryName = countryAdjacencies[j];
         // Add the name to the adjacency string
         if (!firstCountryInString) {
-          adjacentCountriesString += ", ";
+          adjacentCountriesBuilder.append(", ");
         } else {
           firstCountryInString = false;
         }
-        adjacentCountriesString += adjacentCountryName;
+        adjacentCountriesBuilder.append(adjacentCountryName);
 
         this.graph.addEdge(thisCountry, this.countryNameMap.get(adjacentCountryName));
       }
-      adjacentCountriesString += "]";
-      thisCountry.setAdjacencyString(adjacentCountriesString);
+      adjacentCountriesBuilder.append("]");
+      thisCountry.setAdjacencyString(adjacentCountriesBuilder.toString());
     }
   }
 
@@ -149,18 +149,18 @@ public class MapEngine {
     List<Country> path = this.graph.bfsShortestPath(startingCountry, endingCountry);
 
     // Create string of fastest route from source to destination from path list
-    String pathString = "[";
+    StringBuilder pathBuilder = new StringBuilder("[");
     Boolean firstNodeInPath = true;
     for (int i = 0; i < path.size(); i++) {
       if (!firstNodeInPath) {
-        pathString += ", ";
+        pathBuilder.append(", ");
       } else {
         firstNodeInPath = false;
       }
-      pathString += path.get(i).getName();
+      pathBuilder.append(path.get(i).getName());
     }
-    pathString += "]";
-    MessageCli.ROUTE_INFO.printMessage(pathString);
+    pathBuilder.append("]");
+    MessageCli.ROUTE_INFO.printMessage(pathBuilder.toString());
 
     // Print the continents passed through and their fuel cost
     List<String> continents = new ArrayList<>();
@@ -182,15 +182,18 @@ public class MapEngine {
         }
       }
     }
-    String continentString = "[";
+    StringBuilder continentBuilder = new StringBuilder("[");
     for (int i = 0; i < continents.size(); i++) {
-      continentString += continents.get(i) + " (" + Integer.toString(continentFuel.get(i)) + ")";
+      continentBuilder.append(continents.get(i));
+      continentBuilder.append(" (");
+      continentBuilder.append(Integer.toString(continentFuel.get(i)));
+      continentBuilder.append(")");
       if (i != continents.size() - 1) {
-        continentString += ", ";
+        continentBuilder.append(", ");
       }
     }
-    continentString += "]";
-    MessageCli.CONTINENT_INFO.printMessage(continentString);
+    continentBuilder.append("]");
+    MessageCli.CONTINENT_INFO.printMessage(continentBuilder.toString());
 
     // Calculate total fuel cost and output it
     int totalFuel = 0;
