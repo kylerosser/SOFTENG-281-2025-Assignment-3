@@ -31,7 +31,7 @@ public class MapEngine {
       this.graph.addNode(newCountry);
     }
 
-    for (int i = 1; i < countries.size(); i++) {
+    for (int i = 0; i < countries.size(); i++) {
       String[] countryInfo = countries.get(i).split(",");
       String countryName = countryInfo[0];
       Country thisCountry = this.countryNameMap.get(countryName);
