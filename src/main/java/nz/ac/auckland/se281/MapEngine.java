@@ -56,10 +56,6 @@ public class MapEngine {
       adjacentCountriesString += "]";
       thisCountry.setAdjacencyString(adjacentCountriesString);
     }
-    List<Country> siamList = this.graph.getAdjacentNodes(this.countryNameMap.get("Siam"));
-    for (Country c : siamList) {
-      System.out.println(c.getName());
-    }
   }
 
   private String getInputCountryName() throws InvalidCountryException {
@@ -197,5 +193,24 @@ public class MapEngine {
     }
     continentString += "]";
     MessageCli.CONTINENT_INFO.printMessage(continentString);
+
+    // Calculate total fuel cost and output it
+    int totalFuel = 0;
+    for (int fuelCost : continentFuel) {
+      totalFuel += fuelCost;
+    }
+    MessageCli.FUEL_INFO.printMessage(Integer.toString(totalFuel));
+
+    // Find the continent with largest total fuel cost and output it
+    String maxContinent = "";
+    int maxFuelCost = -1;
+    for (int i = 0; i < continents.size(); i++) {
+      if (continentFuel.get(i) > maxFuelCost) {
+        maxFuelCost = continentFuel.get(i);
+        maxContinent = continents.get(i);
+      }
+    }
+    MessageCli.FUEL_CONTINENT_INFO.printMessage(
+        maxContinent + " (" + Integer.toString(maxFuelCost) + ")");
   }
 }
